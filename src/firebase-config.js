@@ -1,14 +1,6 @@
 // FIREBASE CONFIGURATION
 // These are your actual Firebase project settings
-export const firebaseConfig = {
-  apiKey: "AIzaSyCmt-ue01dziiK-S1BlSMnUH96ilyRxSMA",
-  authDomain: "ngo-ke.firebaseapp.com",
-  projectId: "ngo-ke",
-  storageBucket: "ngo-ke.firebasestorage.app",
-  messagingSenderId: "225584983873",
-  appId: "1:225584983873:web:e8066613447ae146783bc0",
-  measurementId: "G-5ED7ZVFG09"
-};
+
 
 // DATA SCHEMA & DEFAULTS
 // These are used as a fallback if the database is empty
