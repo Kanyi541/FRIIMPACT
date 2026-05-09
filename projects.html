@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Projects | AfriImpact NGO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  </head>
+  <body class="bg-amber-50 overflow-x-hidden">
+    <header></header>
+
+    <main>
+      <!-- Page Hero -->
+      <section class="relative pt-48 pb-24 bg-green-900 overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+          <div class="max-w-3xl">
+            <span class="text-yellow-400 font-semibold tracking-widest uppercase mb-2 block">Our Impact in Action</span>
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-8">Initiatives for a <br><span class="text-amber-500">Better Tomorrow</span></h1>
+            <p class="text-xl text-white/70 leading-relaxed font-light mb-12">
+              From classrooms to climate-smart farms, our projects are designed to create lasting, scalable change across the continent.
+            </p>
+          </div>
+        </div>
+        <div class="absolute top-0 right-0 w-1/2 h-full opacity-20 hidden lg:block">
+          <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2026&auto=format&fit=crop" class="w-full h-full object-cover" alt="Impact">
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+
+          <!-- Filter Bar -->
+          <div class="flex flex-wrap gap-4 mb-16 reveal-on-scroll justify-center" id="filter-bar">
+            <button data-filter="all" class="filter-btn active px-8 py-3 rounded-full bg-green-900 text-white font-bold shadow-lg transition-all">All Projects</button>
+            <button data-filter="Education" class="filter-btn px-8 py-3 rounded-full bg-amber-50 text-green-900 hover:bg-green-900 hover:text-white font-bold transition-all">Education</button>
+            <button data-filter="Climate Action" class="filter-btn px-8 py-3 rounded-full bg-amber-50 text-green-900 hover:bg-green-900 hover:text-white font-bold transition-all">Climate Action</button>
+            <button data-filter="Health" class="filter-btn px-8 py-3 rounded-full bg-amber-50 text-green-900 hover:bg-green-900 hover:text-white font-bold transition-all">Health</button>
+            <button data-filter="Youth Innovation" class="filter-btn px-8 py-3 rounded-full bg-amber-50 text-green-900 hover:bg-green-900 hover:text-white font-bold transition-all">Youth Innovation</button>
+          </div>
+
+          <!-- Loading Skeleton -->
+          <div id="projects-loading" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+            ${[1,2,3].map(() => `
+              <div class="animate-pulse bg-gray-100 rounded-3xl overflow-hidden">
+                <div class="h-72 bg-gray-200"></div>
+                <div class="p-8 space-y-4">
+                  <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+                  <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-4 bg-gray-200 rounded w-full"></div>
+                  <div class="h-2 bg-gray-200 rounded-full w-full mt-4"></div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Dynamic Projects Grid -->
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12 hidden" id="projects-grid"></div>
+
+        </div>
+      </section>
+
+      <!-- Before/After transformation -->
+      <section class="py-24 bg-green-950 text-white overflow-hidden">
+        <div class="container mx-auto px-6">
+          <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div class="reveal-on-scroll">
+              <span class="text-yellow-400 font-semibold tracking-widest uppercase mb-2 block">Real Transformation</span>
+              <h2 class="text-4xl md:text-5xl font-bold mb-8">The Power of Your Support</h2>
+              <p class="text-xl text-white/60 mb-10 leading-relaxed">
+                Meet David, who went from a small-scale farmer struggling with droughts to a community leader in sustainable agriculture through our Green Sahel project.
+              </p>
+              <div class="flex items-center gap-6">
+                <div class="bg-white/10 p-6 rounded-2xl border border-white/10">
+                  <p class="text-3xl font-bold text-yellow-400 mb-1">3x</p>
+                  <p class="text-sm opacity-60">Crop Yield Increase</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-2xl border border-white/10">
+                  <p class="text-3xl font-bold text-yellow-400 mb-1">100%</p>
+                  <p class="text-sm opacity-60">Clean Water Access</p>
+                </div>
+              </div>
+            </div>
+            <div class="relative reveal-on-scroll grid grid-cols-2 gap-4">
+               <div class="rounded-3xl overflow-hidden shadow-2xl">
+                 <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=1931&auto=format&fit=crop" class="w-full h-full object-cover" alt="Before">
+                 <div class="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3 py-1 rounded-md text-xs font-bold uppercase">Before</div>
+               </div>
+               <div class="rounded-3xl overflow-hidden shadow-2xl translate-y-12">
+                 <img src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?q=80&w=1942&auto=format&fit=crop" class="w-full h-full object-cover" alt="After">
+                 <div class="absolute top-4 left-4 bg-amber-600 px-3 py-1 rounded-md text-xs font-bold uppercase">After</div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

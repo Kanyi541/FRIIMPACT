@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | AfriImpact NGO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <!-- Uploadcare Widget -->
+    <script>
+        UPLOADCARE_PUBLIC_KEY = '47f3f235703636e00a62'; 
+        UPLOADCARE_TABS = 'file url facebook gdrive gphotos';
+    </script>
+    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+    <style>
+        /* Custom Uploadcare Styling */
+        .uploadcare--widget__button_type_open {
+            background: #064e3b !important;
+            border-radius: 1rem !important;
+            padding: 0.75rem 1.5rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+            font-size: 0.75rem !important;
+            border: none !important;
+            transition: all 0.3s ease !important;
+        }
+        .uploadcare--widget__button_type_open:hover {
+            background: #d97706 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .uploadcare--widget {
+            display: block !important;
+            width: 100% !important;
+        }
+        .uploadcare--widget__text {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.875rem !important;
+            color: #6b7280 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Admin Sidebar -->
+    <div class="flex">
+        <aside class="w-64 bg-green-950 min-h-screen p-6 text-white sticky top-0">
+            <div class="flex items-center gap-2 mb-12">
+                <span class="w-8 h-8 bg-amber-600 rounded flex items-center justify-center">
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xl font-bold">Admin Panel</span>
+            </div>
+            <nav class="space-y-4">
+                <button onclick="showTab('dashboard')" class="w-full text-left p-3 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-3 active-tab" id="tab-dashboard">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                </button>
+                <button onclick="showTab('projects')" class="w-full text-left p-3 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-3" id="tab-projects">
+                    <i data-lucide="folder-kanban" class="w-5 h-5"></i> Projects
+                </button>
+                <button onclick="showTab('news')" class="w-full text-left p-3 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-3" id="tab-news">
+                    <i data-lucide="newspaper" class="w-5 h-5"></i> News & Events
+                </button>
+                <button onclick="showTab('stats')" class="w-full text-left p-3 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-3" id="tab-stats">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i> Impact Stats
+                </button>
+                <button onclick="showTab('content')" class="w-full text-left p-3 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-3" id="tab-content">
+                    <i data-lucide="layout" class="w-5 h-5"></i> Site Content
+                </button>
+            </nav>
+            <div class="mt-auto pt-12">
+                <a href="index.html" class="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm">
+                    <i data-lucide="external-link" class="w-4 h-4"></i> View Website
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow p-10">
+            <header class="flex justify-between items-center mb-10">
+                <h2 id="current-tab-title" class="text-3xl font-black text-green-900 uppercase tracking-tight">Dashboard Overview</h2>
+                <div id="status-message" class="hidden px-4 py-2 rounded-lg bg-green-100 text-green-700 font-medium"></div>
+            </header>
+
+            <!-- Dashboard Tab -->
+            <div id="content-dashboard" class="tab-content space-y-8">
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                        <p class="text-gray-400 text-sm font-bold uppercase mb-2">Total Projects</p>
+                        <h3 class="text-4xl font-black text-green-900" id="stat-projects-count">0</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                        <p class="text-gray-400 text-sm font-bold uppercase mb-2">Total News</p>
+                        <h3 class="text-4xl font-black text-green-900" id="stat-news-count">0</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                        <p class="text-gray-400 text-sm font-bold uppercase mb-2">Lives Impacted</p>
+                        <h3 class="text-4xl font-black text-amber-600" id="stat-lives-count">0</h3>
+                    </div>
+                </div>
+                
+                <div class="bg-amber-50 p-8 rounded-[2.5rem] border border-amber-200">
+                    <h4 class="text-xl font-bold text-green-950 mb-4">Welcome to AfriImpact CMS</h4>
+                    <p class="text-green-900/70 leading-relaxed">
+                        Manage your NGO's presence. Use **Uploadcare** for images and the **Site Content** tab to edit all wording.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Site Content Tab -->
+            <div id="content-content" class="tab-content hidden space-y-8">
+                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100">
+                    <h3 class="text-xl font-bold mb-8">Home Page Wording & Visuals</h3>
+                    <form id="site-content-form" class="space-y-12">
+                        <!-- Hero Section -->
+                        <div class="bg-gray-50/50 p-8 rounded-[2rem] border border-gray-100 space-y-6">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-green-900/10 flex items-center justify-center text-green-900">
+                                    <i data-lucide="zap" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-green-900">Hero & Visuals</h4>
+                            </div>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Main Headline</label>
+                                    <input type="text" id="site-hero-title" class="w-full p-4 bg-white border border-gray-200 rounded-2xl outline-none focus:border-green-900 transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Sub-headline</label>
+                                    <input type="text" id="site-hero-subtitle" class="w-full p-4 bg-white border border-gray-200 rounded-2xl outline-none focus:border-green-900 transition-all">
+                                </div>
+                                <div class="col-span-2 space-y-2">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Background Image</label>
+                                    <div class="p-4 bg-white border border-gray-200 rounded-2xl">
+                                        <input type="hidden" id="site-hero-img" role="uploadcare-uploader">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mission Section -->
+                        <div class="bg-gray-50/50 p-8 rounded-[2rem] border border-gray-100 space-y-6">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-amber-600/10 flex items-center justify-center text-amber-600">
+                                    <i data-lucide="target" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-green-900">Mission & Purpose</h4>
+                            </div>
+                            <div class="grid grid-cols-1 gap-6">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Mission Heading</label>
+                                    <input type="text" id="site-mission-title" class="w-full p-4 bg-white border border-gray-200 rounded-2xl outline-none focus:border-green-900 transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Detailed Wording</label>
+                                    <textarea id="site-mission-text" class="w-full p-4 bg-white border border-gray-200 rounded-2xl outline-none focus:border-green-900 transition-all" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Core Pillars -->
+                        <div class="bg-gray-50/50 p-8 rounded-[2rem] border border-gray-100 space-y-6">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-blue-600/10 flex items-center justify-center text-blue-600">
+                                    <i data-lucide="layers" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-green-900">Core Pillars (Home Cards)</h4>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <!-- Pillar 1 -->
+                                <div class="space-y-3 p-6 bg-white border border-gray-100 rounded-3xl shadow-sm">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Pillar #1</label>
+                                    <input type="text" id="site-p1-title" placeholder="Title" class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl outline-none text-sm focus:border-green-900 transition-all">
+                                    <textarea id="site-p1-text" placeholder="Description" class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl outline-none text-sm" rows="3"></textarea>
+                                </div>
+                                <!-- Pillar 2 -->
+                                <div class="space-y-3 p-6 bg-white border border-gray-100 rounded-3xl shadow-sm">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Pillar #2</label>
+                                    <input type="text" id="site-p2-title" placeholder="Title" class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl outline-none text-sm focus:border-green-900 transition-all">
+                                    <textarea id="site-p2-text" placeholder="Description" class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl outline-none text-sm" rows="3"></textarea>
+                                </div>
+                                <!-- Pillar 3 -->
+                                <div class="space-y-3 p-6 bg-white border border-gray-100 rounded-3xl shadow-sm">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Pillar #3</label>
+                                    <input type="text" id="site-p3-title" placeholder="Title" class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl outline-none text-sm focus:border-green-900 transition-all">
+                                    <textarea id="site-p3-text" placeholder="Description" class="w-full p-3 bg-gray-50 border border-gray-100 rounded-xl outline-none text-sm" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA Section -->
+                        <div class="bg-gray-50/50 p-8 rounded-[2rem] border border-gray-100 space-y-6">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-amber-600/10 flex items-center justify-center text-amber-600">
+                                    <i data-lucide="mail" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-green-900">Banner & Community CTA</h4>
+                            </div>
+                            <div class="grid grid-cols-1 gap-6">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Banner Headline</label>
+                                    <input type="text" id="site-cta-title" class="w-full p-4 bg-white border border-gray-200 rounded-2xl outline-none focus:border-green-900 transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase text-gray-400">Banner Subtext</label>
+                                    <input type="text" id="site-cta-text" class="w-full p-4 bg-white border border-gray-200 rounded-2xl outline-none focus:border-green-900 transition-all">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-green-900 text-white py-5 rounded-3xl font-black uppercase tracking-widest hover:bg-amber-600 transition-all shadow-xl shadow-green-900/20">Update All Site Content</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Projects Tab -->
+            <div id="content-projects" class="tab-content hidden space-y-8">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Manage Projects</h3>
+                    <button onclick="openProjectModal()" class="bg-green-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-amber-600 transition-all flex items-center gap-2">
+                        <i data-lucide="plus" class="w-5 h-5"></i> Add Project
+                    </button>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6" id="admin-projects-list">
+                    <!-- Dynamic Projects -->
+                </div>
+            </div>
+
+            <!-- News Tab -->
+            <div id="content-news" class="tab-content hidden space-y-8">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Latest News & Blog</h3>
+                    <button onclick="openNewsModal()" class="bg-green-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-amber-600 transition-all flex items-center gap-2">
+                        <i data-lucide="plus" class="w-5 h-5"></i> New Article
+                    </button>
+                </div>
+                <div class="space-y-4" id="admin-news-list">
+                    <!-- Dynamic News -->
+                </div>
+            </div>
+
+            <!-- Stats Tab -->
+            <div id="content-stats" class="tab-content hidden max-w-2xl">
+                <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-bold mb-8">Update Impact Statistics</h3>
+                    <form id="stats-form" class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase">Lives Impacted</label>
+                            <input type="number" id="inp-lives" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-amber-600 outline-none">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase">Youth Trained</label>
+                            <input type="number" id="inp-youth" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-amber-600 outline-none">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase">Trees Planted</label>
+                            <input type="number" id="inp-trees" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-amber-600 outline-none">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase">Scholarships Funded</label>
+                            <input type="number" id="inp-scholarships" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-amber-600 outline-none">
+                        </div>
+                        <button type="submit" class="w-full bg-amber-600 text-white py-4 rounded-2xl font-bold hover:bg-green-900 transition-all">Save Statistics</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Project Modal (Redesigned for Multi-Add) -->
+    <div id="project-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-[3rem] w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+            <div class="p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <h3 class="text-2xl font-black text-green-900 uppercase tracking-tight">Add / Edit Projects</h3>
+                <button onclick="closeProjectModal()" class="w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <div class="p-8 overflow-y-auto flex-grow space-y-8" id="multi-project-container">
+                <!-- Project Forms will be injected here -->
+            </div>
+
+            <div class="p-8 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row gap-4">
+                <button type="button" onclick="addNewProjectForm()" class="flex-grow bg-white border-2 border-green-900 text-green-900 py-4 rounded-2xl font-bold hover:bg-green-50 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5"></i> Add Another Project
+                </button>
+                <button onclick="saveAllProjects()" id="save-projects-btn" class="flex-grow bg-green-900 text-white py-4 rounded-2xl font-bold hover:bg-amber-600 transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-900/20">
+                    <i data-lucide="save" class="w-5 h-5"></i> Save All Projects
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/admin.js"></script>
+</body>
+</html>

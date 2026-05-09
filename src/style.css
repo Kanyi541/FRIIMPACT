@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .active-tab {
+    @apply bg-white/20 font-bold border-l-4 border-amber-600 rounded-l-none;
+  }
+}
+
+.tab-content {
+  transition: opacity 0.3s ease;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; }
+  h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; }
+}
+
+/* Scroll reveal animation */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #fffbeb; }
+::-webkit-scrollbar-thumb { background: #064e3b; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #065f46; }
+
+/* Cursor glow */
+#cursor-glow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217,119,6,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.5s;
+}
+
+/* Chatbot panel transition */
+#chatbot-panel {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Image shimmer placeholder ─────────────────────────────────────────────── */
+/* Applied via JS to <img> tags in dynamically rendered cards */
+.img-shimmer {
+  background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 50%, #f3f4f6 100%);
+  background-size: 200% 100%;
+  animation: img-shimmer-anim 1.4s infinite;
+  opacity: 1 !important;
+}
+
+@keyframes img-shimmer-anim {
+  to { background-position: -200% 0; }
+}
+
+/* Once the image loads, fade it in from invisible */
+.img-fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.img-fade-in.loaded {
+  opacity: 1;
+}
